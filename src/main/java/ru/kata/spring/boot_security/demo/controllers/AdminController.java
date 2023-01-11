@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -19,7 +20,7 @@ public class AdminController {
     private final UserServiceImpl userService;
 
 
-    @Autowired
+   // @Autowired
     public AdminController(UserServiceImpl userService) {
         this.userService = userService;
     }
@@ -28,7 +29,7 @@ public class AdminController {
     public String sawUsers(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("messages", user);
-        model.addAttribute("use", new User());
+        model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roleUser", userService.getAllRoles());
         return "admin";
@@ -42,9 +43,10 @@ public class AdminController {
 
     @PostMapping("/new_user")
     public String addUser(User user) {
-        List<String> list1 = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+       List<String> list1 = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+       //Set.copyOf(list1);
         List<Role> list2 = userService.listByRole(list1);
-        user.setRoles(list2);
+        user.setRoles(Set.copyOf(list2));
         userService.add(user);
         return "redirect:/admin";
     }
@@ -61,7 +63,7 @@ public class AdminController {
     public String updateUser(User user) {
         List<String> list1 = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
         List<Role> list2 = userService.listByRole(list1);
-        user.setRoles(list2);
+        user.setRoles(Set.copyOf(list2));
         userService.edit(user);
         userService.edit(user);
         return "redirect:/admin";

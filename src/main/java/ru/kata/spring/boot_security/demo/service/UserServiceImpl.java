@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         return new BCryptPasswordEncoder(10);
     }
 
-    @Autowired
+   // @Autowired
     public UserServiceImpl(RoleDaoImpl roleDao, UserDaoImpl userDao) {
         this.roleDao = roleDao;
         this.userDao = userDao;
@@ -40,13 +40,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Transactional
-    public boolean addRole(Role role) {
+    public void addRole(Role role) {
         Role userOne = roleDao.findByName(role.getRole());
-        if (userOne != null) {
-            return false;
-        }
-        roleDao.add(role);
-        return true;
+              roleDao.add(role);
     }
 
 
@@ -76,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void add(User user) {                                        // изменения метода для правильного сохранения в БД, иначе пароль не кодировался
-        User userOne = userDao.findByEmail(user.getEmail());
+      //  User userOne = userDao.findByEmail(user.getEmail());
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userDao.add(user);
 

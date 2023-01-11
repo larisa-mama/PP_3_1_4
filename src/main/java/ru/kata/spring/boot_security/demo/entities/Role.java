@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 
 
-
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
@@ -17,6 +16,7 @@ public class Role implements GrantedAuthority {
     private Long id;                                             // только классы-обертки
     @Column(name = "role")
     private String role;
+
     public Role() {
     }
 
@@ -28,9 +28,10 @@ public class Role implements GrantedAuthority {
     public Role(String role) {
         this.role = role;
     }
-public String withoutPrefix() {
-       return role.substring(5);             // метод для вывода в форме без ROLE_
-}
+
+    public String withoutPrefix() {
+        return role.substring(5);             // метод для вывода в форме без ROLE_
+    }
 
     @Override
     public String getAuthority() {

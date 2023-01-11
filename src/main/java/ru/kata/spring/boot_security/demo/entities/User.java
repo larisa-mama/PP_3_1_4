@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.entities;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,7 +26,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String firstname, String fullname, String email, String password, List<Role> roles) {
+    public User(String firstname, String fullname, String email, String password, Set<Role> roles) {
         this.firstname = firstname;
         this.fullname = fullname;
         this.email = email;
@@ -35,7 +34,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(Long id, String firstname, String fullname, String email, String password, List<Role> roles) {
+    public User(Long id, String firstname, String fullname, String email, String password, Set<Role> roles) {
         this.id = id;
         this.firstname = firstname;
         this.fullname = fullname;
@@ -50,7 +49,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),                //ManyToMany потому что у пользователя может быть много ролей и одна роль может бфть присвоена нескольким юзерам
             inverseJoinColumns = @JoinColumn(name = "role_id"))
 
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -121,12 +120,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {       //по требованию ментора поменяла List на Set
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Set<Role> roles) {
+        this.roles =  roles;
     }
 
 
@@ -141,4 +140,6 @@ public class User implements UserDetails {
                 ", roles=" + getRoles() +                   // из-за представления в html
                 '}';
     }
+
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 //@Service
 public interface UserService extends UserDetailsService  {            // задача - по имени пользователя предоставить самого пользователя
-   boolean addRole (Role role);
+   void addRole (Role role);
    Role findByNameRole (String name);
    List<Role> getAllRoles();
    Role findByIdRole(Long id);
